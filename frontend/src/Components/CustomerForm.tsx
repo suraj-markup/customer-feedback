@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const initialTouched = {
   name: false,
@@ -119,8 +120,12 @@ const CustomerForm: React.FC = () => {
       const response = await axios.post('http://localhost:8000/api/customers', payload);
       setConsent(formData.email_consent);
       setSubmitted(true);
-    } catch (error) {
-      alert('Error creating customer');
+    } catch (error: any) {
+      let message = 'Error creating customer';
+      if (error.response && error.response.data && error.response.data.detail) {
+        message = error.response.data.detail;
+      }
+      toast.error(message);
     } finally {
       setLoading(false);
     }

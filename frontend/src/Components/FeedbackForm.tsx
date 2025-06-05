@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Rating from '@mui/material/Rating';
-import Stack from '@mui/material/Stack';
 import CircularProgress from '@mui/material/CircularProgress';
+import { toast } from 'react-toastify';
 
 const FeedbackForm: React.FC = () => {
   const { token } = useParams<{ token: string }>();
@@ -25,8 +25,12 @@ const FeedbackForm: React.FC = () => {
           `http://localhost:8000/api/feedback/${token}`
         );
         setCustomerInfo(response.data);
-      } catch (error) {
-        alert("Invalid or expired survey link");
+      } catch (error: any) {
+        let message = 'Invalid or expired survey link';
+        if (error.response && error.response.data && error.response.data.detail) {
+          message = error.response.data.detail;
+        }
+        toast.error(message);
       } finally {
         setLoading(false);
       }
@@ -61,8 +65,12 @@ const FeedbackForm: React.FC = () => {
       setSubmitting(true);
       await axios.post(`http://localhost:8000/api/feedback/${token}`, feedback);
       setSubmitted(true);
-    } catch (error) {
-      alert("Error submitting feedback");
+    } catch (error: any) {
+      let message = 'Error submitting feedback';
+      if (error.response && error.response.data && error.response.data.detail) {
+        message = error.response.data.detail;
+      }
+      toast.error(message);
     } finally {
       setSubmitting(false);
     }

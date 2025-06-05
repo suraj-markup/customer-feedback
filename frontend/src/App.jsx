@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import CustomerForm from './Components/CustomerForm';
 import FeedbackForm from './Components/FeedbackForm';
 import logo from './assets/logo.png';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
@@ -18,6 +20,7 @@ function App() {
           <Route path="/" element={<CustomerForm />} />
           <Route path="/feedback/:token" element={<FeedbackForm />} />
         </Routes>
+        <ToastContainer position="top-center" autoClose={4000} hideProgressBar={false} newestOnTop closeOnClick pauseOnFocusLoss draggable pauseOnHover />
       </div>
     </Router>
   );
