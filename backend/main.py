@@ -12,6 +12,7 @@ from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
 from fastapi.responses import JSONResponse
 from fastapi.requests import Request
+import json
 
 load_dotenv()
 
@@ -256,6 +257,67 @@ async def submit_feedback(token: str, feedback: FeedbackSubmission):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Server error: {str(e)}")
 
+@app.get("/api/customers")
+async def get_customers():
+    from services.mongodb_service import mongodb_service
+    try:
+        customers = list(mongodb_service.customers.find())
+        # Convert ObjectId to string for JSON serialization
+        for customer in customers:
+            customer['_id'] = str(customer['_id'])
+        return customers
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/feedback")
+async def get_feedback():
+    from services.mongodb_service import mongodb_service
+    try:
+        feedback = list(mongodb_service.feedback.find())
+        # Convert ObjectId to string for JSON serialization
+        for item in feedback:
+            item['_id'] = str(item['_id'])
+        return feedback
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/azure-data")
+async def get_azure_data():
+    from services.azure_service import azure_service
+    try:
+        files = azure_service.get_all_feedback_files()
+        return files
+    except Exception as e:
+        print(f"Error in get_azure_data endpoint: {str(e)}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Error retrieving Azure data: {str(e)}"
+        )
+
+@app.get("/api/test-azure-connection")
+async def test_azure_connection():
+    from services.azure_service import azure_service
+    try:
+        # Try to list files in the container
+        file_system_client = azure_service.service_client.get_file_system_client("feedback-data")
+        files = []
+        
+        # Use synchronous iteration
+        paths = file_system_client.get_paths()
+        for path in paths:
+            files.append(path.name)
+        
+        return {
+            "status": "success",
+            "message": "Successfully connected to Azure Data Lake",
+            "files_found": len(files)
+        }
+    except Exception as e:
+        print(f"Azure connection test error: {str(e)}")
+        return {
+            "status": "error",
+            "message": f"Failed to connect to Azure Data Lake: {str(e)}"
+        }
 
 if __name__ == "__main__":
     import uvicorn
