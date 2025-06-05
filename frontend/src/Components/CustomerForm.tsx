@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { API_BASE_URL } from '../constants/api';
 
 const initialTouched = {
   name: false,
@@ -117,7 +118,7 @@ const CustomerForm: React.FC = () => {
         ...formData,
         purpose_of_visit: formData.purpose_of_visit === 'Others' ? customPurpose : formData.purpose_of_visit
       };
-      const response = await axios.post('http://localhost:8000/api/customers', payload);
+      const response = await axios.post(`${API_BASE_URL}/api/customers`, payload);
       setConsent(formData.email_consent);
       setSubmitted(true);
     } catch (error: any) {

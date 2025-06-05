@@ -1,10 +1,10 @@
 import yagmail
-import os
+from config import EMAIL_USER, EMAIL_PASSWORD, FRONTEND_URL
 
 class EmailService:
     def __init__(self):
-        email_user = os.getenv("EMAIL_USER")
-        email_password = os.getenv("EMAIL_PASSWORD")
+        email_user = EMAIL_USER
+        email_password = EMAIL_PASSWORD
         
         if not email_user or not email_password:
             print("Email service error: EMAIL_USER or EMAIL_PASSWORD environment variables not set")
@@ -31,7 +31,7 @@ class EmailService:
                 print("Email service not available")
                 return False
                    
-            frontend_url = os.getenv("FRONTEND_URL", "http://localhost:3000")
+            frontend_url = FRONTEND_URL
             survey_link = f"{frontend_url}/feedback/{survey_token}"
               
             full_content = f"""

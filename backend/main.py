@@ -19,7 +19,7 @@ app = FastAPI(title="Customer Feedback API", version="1.0.0")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["http://localhost:5173", "http://localhost:8000"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -39,7 +39,7 @@ async def rate_limit_handler(request: Request, exc: RateLimitExceeded):
 class CustomerCreate(BaseModel):
     name: constr(strip_whitespace=True, min_length=2, max_length=100)
     email: EmailStr
-    mobile: Optional[constr(regex=r'^\d{10,15}$')] = None
+    mobile: Optional[constr(pattern=r'^\d{10,15}$')] = None
     email_consent: bool
     purpose_of_visit: constr(strip_whitespace=True, min_length=2)
     branch_id: constr(strip_whitespace=True, min_length=1)

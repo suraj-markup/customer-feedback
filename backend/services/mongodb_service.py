@@ -1,10 +1,10 @@
 from pymongo import MongoClient
 from datetime import datetime
-import os
+from config import MONGODB_URL
 
 class MongoDBService:
     def __init__(self):
-        self.client = MongoClient(os.getenv("MONGODB_URL"))
+        self.client = MongoClient(MONGODB_URL)
         self.db = self.client.feedback_system
         self.customers = self.db.customers
         self.survey_links = self.db.survey_links

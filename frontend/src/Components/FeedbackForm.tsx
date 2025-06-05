@@ -4,6 +4,7 @@ import axios from "axios";
 import Rating from '@mui/material/Rating';
 import CircularProgress from '@mui/material/CircularProgress';
 import { toast } from 'react-toastify';
+import { API_BASE_URL } from '../constants/api';
 
 const FeedbackForm: React.FC = () => {
   const { token } = useParams<{ token: string }>();
@@ -21,9 +22,7 @@ const FeedbackForm: React.FC = () => {
   useEffect(() => {
     const loadCustomerInfo = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8000/api/feedback/${token}`
-        );
+        const response = await axios.get(`${API_BASE_URL}/api/feedback/${token}`);
         setCustomerInfo(response.data);
       } catch (error: any) {
         let message = 'Invalid or expired survey link';
@@ -63,7 +62,7 @@ const FeedbackForm: React.FC = () => {
     if (error) return;
     try {
       setSubmitting(true);
-      await axios.post(`http://localhost:8000/api/feedback/${token}`, feedback);
+      await axios.post(`${API_BASE_URL}/api/feedback/${token}`, feedback);
       setSubmitted(true);
     } catch (error: any) {
       let message = 'Error submitting feedback';

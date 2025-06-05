@@ -1,9 +1,9 @@
 import openai
-import os
+from config import OPENAI_API_KEY
 
 class GPTService:
     def __init__(self):
-        openai.api_key = os.getenv("OPENAI_API_KEY")
+        openai.api_key = OPENAI_API_KEY
        
     async def generate_survey_email(self, customer_name: str, purpose_of_visit: str, branch_name: str, staff_name: str):
         try:

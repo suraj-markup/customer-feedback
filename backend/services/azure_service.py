@@ -2,12 +2,11 @@ from azure.storage.filedatalake import DataLakeServiceClient
 import json
 import os
 from datetime import datetime
+from config import AZURE_STORAGE_CONNECTION_STRING
 
 class AzureDataLakeService:
     def __init__(self):
-        self.service_client = DataLakeServiceClient.from_connection_string(
-            os.getenv("AZURE_STORAGE_CONNECTION_STRING")
-        )
+        self.service_client = DataLakeServiceClient.from_connection_string(AZURE_STORAGE_CONNECTION_STRING)
         self.file_system_name = "feedback-data"
            
     async def upload_feedback_json(self, feedback_data: dict, customer_id: str):
