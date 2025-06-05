@@ -9,11 +9,11 @@ import {
   Typography,
   Box,
   Paper,
-  Grid,
   Chip,
   Rating,
   Divider,
 } from "@mui/material";
+import Grid from "@mui/material/Grid";
 import { format } from "date-fns";
 import { API_BASE_URL } from "../constants/api";
 

@@ -160,6 +160,70 @@ FRONTEND_URL=http://localhost:3000
   - MongoDB: Optimized for operations
   - Azure: Cost-effective for analytics
 
+
+## Dashboard Details
+
+The dashboard provides a comprehensive view of customer data, feedback, and Azure Data Lake information through an intuitive tabbed interface:
+
+
+### Features
+
+1. **Tabbed Navigation**
+   - Customers Tab: View all customer records
+   - Feedback Tab: Access customer feedback entries
+   - Azure Data Tab: Monitor Azure Data Lake files
+
+2. **Interactive Tables**
+   - Sortable columns
+   - Responsive design
+   - Hover effects for better UX
+   - Clickable rows for detailed views
+
+3. **Detailed Modal Views**
+   - Customer Information
+     - Name, Email, Purpose of Visit
+     - Branch and Staff details
+     - Visit timestamps
+   - Feedback Details
+     - Star ratings with visual representation
+     - Textual feedback in formatted cards
+     - Sentiment analysis with color-coded chips
+     - GPT-generated summaries
+   - Azure Data Information
+     - File metadata
+     - Submission timestamps
+     - Survey tokens
+     - Associated customer data
+
+4. **Data Visualization**
+   - Color-coded sentiment indicators
+   - Star rating visualization
+   - Formatted timestamps
+   - Truncated text with full view in modals
+
+5. **Real-time Updates**
+   - Automatic data refresh
+   - Loading states
+   - Error handling
+   - Empty state messages
+
+6. **Responsive Design**
+   - Mobile-friendly layout
+   - Adaptive grid system
+   - Scrollable tables
+   - Modal dialogs for detailed views
+
+### Technical Implementation
+
+- Built with React and TypeScript
+- Material-UI components for consistent design
+- Axios for API communication
+- Date-fns for timestamp formatting
+- Responsive grid system for layout
+- Error boundary implementation
+- Loading state management
+- Type-safe props and state management 
+
 ## 🤝 Contributing
 
 1. Fork the repository
@@ -178,4 +242,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - MongoDB Atlas for database services
 - Azure for data lake storage
 - FastAPI for backend framework
-- React team for frontend framework 
+- React team for frontend framework
