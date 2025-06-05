@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import {
   Dialog,
   DialogTitle,
@@ -12,9 +12,10 @@ import {
   Grid,
   Chip,
   Rating,
-  Divider
-} from '@mui/material';
-import { format } from 'date-fns';
+  Divider,
+} from "@mui/material";
+import { format } from "date-fns";
+import { API_BASE_URL } from "../constants/api";
 
 interface Customer {
   _id: string;
@@ -64,41 +65,52 @@ interface DetailModalProps {
   open: boolean;
   onClose: () => void;
   data: any;
-  type: 'azure' | 'feedback';
+  type: "azure" | "feedback";
 }
 
-const DetailModal: React.FC<DetailModalProps> = ({ open, onClose, data, type }) => {
+const DetailModal: React.FC<DetailModalProps> = ({
+  open,
+  onClose,
+  data,
+  type,
+}) => {
   if (!data) return null;
 
   const renderAzureDetails = () => (
     <Box>
-      <Typography variant="h6" gutterBottom>Customer Information</Typography>
+      <Typography variant="h6" gutterBottom>
+        Customer Information
+      </Typography>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
           <Typography variant="subtitle2">Name</Typography>
-          <Typography>{data.customer_data.name || 'N/A'}</Typography>
+          <Typography>{data.customer_data.name || "N/A"}</Typography>
         </Grid>
         <Grid item xs={12} sm={6}>
           <Typography variant="subtitle2">Email</Typography>
-          <Typography>{data.customer_data.email || 'N/A'}</Typography>
+          <Typography>{data.customer_data.email || "N/A"}</Typography>
         </Grid>
         <Grid item xs={12} sm={6}>
           <Typography variant="subtitle2">Purpose of Visit</Typography>
-          <Typography>{data.customer_data.purpose_of_visit || 'N/A'}</Typography>
+          <Typography>
+            {data.customer_data.purpose_of_visit || "N/A"}
+          </Typography>
         </Grid>
         <Grid item xs={12} sm={6}>
           <Typography variant="subtitle2">Branch</Typography>
-          <Typography>{data.customer_data.branch_name || 'N/A'}</Typography>
+          <Typography>{data.customer_data.branch_name || "N/A"}</Typography>
         </Grid>
         <Grid item xs={12} sm={6}>
           <Typography variant="subtitle2">Staff Member</Typography>
-          <Typography>{data.customer_data.staff_name || 'N/A'}</Typography>
+          <Typography>{data.customer_data.staff_name || "N/A"}</Typography>
         </Grid>
       </Grid>
 
       <Divider sx={{ my: 2 }} />
 
-      <Typography variant="h6" gutterBottom>Feedback Details</Typography>
+      <Typography variant="h6" gutterBottom>
+        Feedback Details
+      </Typography>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Typography variant="subtitle2">Rating</Typography>
@@ -107,43 +119,51 @@ const DetailModal: React.FC<DetailModalProps> = ({ open, onClose, data, type }) 
         <Grid item xs={12}>
           <Typography variant="subtitle2">Feedback</Typography>
           <Paper variant="outlined" sx={{ p: 2, mt: 1 }}>
-            <Typography>{data.feedback.textual_feedback || 'No feedback provided'}</Typography>
+            <Typography>
+              {data.feedback.textual_feedback || "No feedback provided"}
+            </Typography>
           </Paper>
         </Grid>
         <Grid item xs={12}>
           <Typography variant="subtitle2">Sentiment</Typography>
-          <Chip 
-            label={data.feedback.sentiment || 'neutral'}
+          <Chip
+            label={data.feedback.sentiment || "neutral"}
             color={
-              data.feedback.sentiment === 'positive' ? 'success' :
-              data.feedback.sentiment === 'negative' ? 'error' :
-              'warning'
+              data.feedback.sentiment === "positive"
+                ? "success"
+                : data.feedback.sentiment === "negative"
+                ? "error"
+                : "warning"
             }
           />
         </Grid>
         <Grid item xs={12}>
           <Typography variant="subtitle2">GPT Summary</Typography>
           <Paper variant="outlined" sx={{ p: 2, mt: 1 }}>
-            <Typography>{data.feedback.gpt_summary || 'No summary available'}</Typography>
+            <Typography>
+              {data.feedback.gpt_summary || "No summary available"}
+            </Typography>
           </Paper>
         </Grid>
       </Grid>
 
       <Divider sx={{ my: 2 }} />
 
-      <Typography variant="h6" gutterBottom>Metadata</Typography>
+      <Typography variant="h6" gutterBottom>
+        Metadata
+      </Typography>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
           <Typography variant="subtitle2">Submission Time</Typography>
           <Typography>
-            {data.metadata?.submission_time 
-              ? format(new Date(data.metadata.submission_time), 'PPpp')
-              : 'N/A'}
+            {data.metadata?.submission_time
+              ? format(new Date(data.metadata.submission_time), "PPpp")
+              : "N/A"}
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6}>
           <Typography variant="subtitle2">Survey Token</Typography>
-          <Typography>{data.metadata?.survey_token || 'N/A'}</Typography>
+          <Typography>{data.metadata?.survey_token || "N/A"}</Typography>
         </Grid>
       </Grid>
     </Box>
@@ -151,7 +171,9 @@ const DetailModal: React.FC<DetailModalProps> = ({ open, onClose, data, type }) 
 
   const renderFeedbackDetails = () => (
     <Box>
-      <Typography variant="h6" gutterBottom>Feedback Details</Typography>
+      <Typography variant="h6" gutterBottom>
+        Feedback Details
+      </Typography>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Typography variant="subtitle2">Rating</Typography>
@@ -160,36 +182,42 @@ const DetailModal: React.FC<DetailModalProps> = ({ open, onClose, data, type }) 
         <Grid item xs={12}>
           <Typography variant="subtitle2">Feedback</Typography>
           <Paper variant="outlined" sx={{ p: 2, mt: 1 }}>
-            <Typography>{data.textual_feedback || 'No feedback provided'}</Typography>
+            <Typography>
+              {data.textual_feedback || "No feedback provided"}
+            </Typography>
           </Paper>
         </Grid>
         <Grid item xs={12}>
           <Typography variant="subtitle2">Sentiment</Typography>
-          <Chip 
-            label={data.sentiment || 'neutral'}
+          <Chip
+            label={data.sentiment || "neutral"}
             color={
-              data.sentiment === 'positive' ? 'success' :
-              data.sentiment === 'negative' ? 'error' :
-              'warning'
+              data.sentiment === "positive"
+                ? "success"
+                : data.sentiment === "negative"
+                ? "error"
+                : "warning"
             }
           />
         </Grid>
         <Grid item xs={12}>
           <Typography variant="subtitle2">GPT Summary</Typography>
           <Paper variant="outlined" sx={{ p: 2, mt: 1 }}>
-            <Typography>{data.gpt_summary || 'No summary available'}</Typography>
+            <Typography>
+              {data.gpt_summary || "No summary available"}
+            </Typography>
           </Paper>
         </Grid>
         <Grid item xs={12}>
           <Typography variant="subtitle2">Azure File Path</Typography>
-          <Typography>{data.azure_file_path || 'N/A'}</Typography>
+          <Typography>{data.azure_file_path || "N/A"}</Typography>
         </Grid>
         <Grid item xs={12}>
           <Typography variant="subtitle2">Created At</Typography>
           <Typography>
-            {data.created_at 
-              ? format(new Date(data.created_at), 'PPpp')
-              : 'N/A'}
+            {data.created_at
+              ? format(new Date(data.created_at), "PPpp")
+              : "N/A"}
           </Typography>
         </Grid>
       </Grid>
@@ -197,17 +225,12 @@ const DetailModal: React.FC<DetailModalProps> = ({ open, onClose, data, type }) 
   );
 
   return (
-    <Dialog 
-      open={open} 
-      onClose={onClose}
-      maxWidth="md"
-      fullWidth
-    >
+    <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
       <DialogTitle>
-        {type === 'azure' ? 'Azure Data Details' : 'Feedback Details'}
+        {type === "azure" ? "Azure Data Details" : "Feedback Details"}
       </DialogTitle>
       <DialogContent dividers>
-        {type === 'azure' ? renderAzureDetails() : renderFeedbackDetails()}
+        {type === "azure" ? renderAzureDetails() : renderFeedbackDetails()}
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>Close</Button>
@@ -220,12 +243,14 @@ const Dashboard: React.FC = () => {
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
   const [azureData, setAzureData] = useState<AzureData[]>([]);
-  const [activeTab, setActiveTab] = useState<'customers' | 'feedback' | 'azure'>('customers');
+  const [activeTab, setActiveTab] = useState<
+    "customers" | "feedback" | "azure"
+  >("customers");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedItem, setSelectedItem] = useState<any>(null);
   const [modalOpen, setModalOpen] = useState(false);
-  const [modalType, setModalType] = useState<'azure' | 'feedback'>('azure');
+  const [modalType, setModalType] = useState<"azure" | "feedback">("azure");
 
   useEffect(() => {
     fetchData();
@@ -235,9 +260,9 @@ const Dashboard: React.FC = () => {
     try {
       setLoading(true);
       const [customersRes, feedbacksRes, azureRes] = await Promise.all([
-        axios.get('http://localhost:8000/api/customers'),
-        axios.get('http://localhost:8000/api/feedback'),
-        axios.get('http://localhost:8000/api/azure-data')
+        axios.get(`${API_BASE_URL}/api/customers`),
+        axios.get(`${API_BASE_URL}/api/feedback`),
+        axios.get(`${API_BASE_URL}/api/azure-data`),
       ]);
 
       setCustomers(customersRes.data || []);
@@ -245,8 +270,8 @@ const Dashboard: React.FC = () => {
       setAzureData(azureRes.data || []);
       setError(null);
     } catch (err) {
-      console.error('Error fetching data:', err);
-      setError('Failed to fetch data. Please try again later.');
+      console.error("Error fetching data:", err);
+      setError("Failed to fetch data. Please try again later.");
     } finally {
       setLoading(false);
     }
@@ -273,11 +298,15 @@ const Dashboard: React.FC = () => {
               <td className="px-4 py-2 border">{customer.name}</td>
               <td className="px-4 py-2 border">{customer.email}</td>
               <td className="px-4 py-2 border">{customer.mobile}</td>
-              <td className="px-4 py-2 border">{customer.email_consent ? 'Yes' : 'No'}</td>
+              <td className="px-4 py-2 border">
+                {customer.email_consent ? "Yes" : "No"}
+              </td>
               <td className="px-4 py-2 border">{customer.purpose_of_visit}</td>
               <td className="px-4 py-2 border">{customer.branch_name}</td>
               <td className="px-4 py-2 border">{customer.staff_name}</td>
-              <td className="px-4 py-2 border">{new Date(customer.created_at).toLocaleString()}</td>
+              <td className="px-4 py-2 border">
+                {new Date(customer.created_at).toLocaleString()}
+              </td>
             </tr>
           ))}
         </tbody>
@@ -285,7 +314,7 @@ const Dashboard: React.FC = () => {
     </div>
   );
 
-  const handleRowClick = (data: any, type: 'azure' | 'feedback') => {
+  const handleRowClick = (data: any, type: "azure" | "feedback") => {
     setSelectedItem(data);
     setModalType(type);
     setModalOpen(true);
@@ -326,41 +355,45 @@ const Dashboard: React.FC = () => {
               }
 
               return (
-                <tr 
-                  key={data.feedback_id} 
+                <tr
+                  key={data.feedback_id}
                   className="hover:bg-gray-50 cursor-pointer"
-                  onClick={() => handleRowClick(data, 'azure')}
+                  onClick={() => handleRowClick(data, "azure")}
                 >
                   <td className="px-4 py-2 border">
-                    {data.customer_data.name || 'N/A'}
+                    {data.customer_data.name || "N/A"}
                   </td>
                   <td className="px-4 py-2 border">
-                    {data.customer_data.purpose_of_visit || 'N/A'}
+                    {data.customer_data.purpose_of_visit || "N/A"}
                   </td>
                   <td className="px-4 py-2 border">
-                    {data.customer_data.branch_name || 'N/A'}
+                    {data.customer_data.branch_name || "N/A"}
                   </td>
                   <td className="px-4 py-2 border">
                     <div className="flex items-center">
-                      {'⭐'.repeat(data.feedback.star_rating || 0)}
+                      {"⭐".repeat(data.feedback.star_rating || 0)}
                     </div>
                   </td>
                   <td className="px-4 py-2 border max-w-md truncate">
-                    {data.feedback.textual_feedback || 'No feedback provided'}
+                    {data.feedback.textual_feedback || "No feedback provided"}
                   </td>
                   <td className="px-4 py-2 border">
-                    <span className={`px-2 py-1 rounded ${
-                      data.feedback.sentiment === 'positive' ? 'bg-green-100 text-green-800' :
-                      data.feedback.sentiment === 'negative' ? 'bg-red-100 text-red-800' :
-                      'bg-yellow-100 text-yellow-800'
-                    }`}>
-                      {data.feedback.sentiment || 'neutral'}
+                    <span
+                      className={`px-2 py-1 rounded ${
+                        data.feedback.sentiment === "positive"
+                          ? "bg-green-100 text-green-800"
+                          : data.feedback.sentiment === "negative"
+                          ? "bg-red-100 text-red-800"
+                          : "bg-yellow-100 text-yellow-800"
+                      }`}
+                    >
+                      {data.feedback.sentiment || "neutral"}
                     </span>
                   </td>
                   <td className="px-4 py-2 border">
-                    {data.metadata?.submission_time 
-                      ? format(new Date(data.metadata.submission_time), 'PPpp')
-                      : 'N/A'}
+                    {data.metadata?.submission_time
+                      ? format(new Date(data.metadata.submission_time), "PPpp")
+                      : "N/A"}
                   </td>
                 </tr>
               );
@@ -395,25 +428,29 @@ const Dashboard: React.FC = () => {
           </thead>
           <tbody>
             {feedbacks.map((feedback) => (
-              <tr 
-                key={feedback._id} 
+              <tr
+                key={feedback._id}
                 className="hover:bg-gray-50 cursor-pointer"
-                onClick={() => handleRowClick(feedback, 'feedback')}
+                onClick={() => handleRowClick(feedback, "feedback")}
               >
                 <td className="px-4 py-2 border">
                   <div className="flex items-center">
-                    {'⭐'.repeat(feedback.star_rating)}
+                    {"⭐".repeat(feedback.star_rating)}
                   </div>
                 </td>
                 <td className="px-4 py-2 border max-w-md truncate">
                   {feedback.textual_feedback}
                 </td>
                 <td className="px-4 py-2 border">
-                  <span className={`px-2 py-1 rounded ${
-                    feedback.sentiment === 'positive' ? 'bg-green-100 text-green-800' :
-                    feedback.sentiment === 'negative' ? 'bg-red-100 text-red-800' :
-                    'bg-yellow-100 text-yellow-800'
-                  }`}>
+                  <span
+                    className={`px-2 py-1 rounded ${
+                      feedback.sentiment === "positive"
+                        ? "bg-green-100 text-green-800"
+                        : feedback.sentiment === "negative"
+                        ? "bg-red-100 text-red-800"
+                        : "bg-yellow-100 text-yellow-800"
+                    }`}
+                  >
                     {feedback.sentiment}
                   </span>
                 </td>
@@ -424,7 +461,7 @@ const Dashboard: React.FC = () => {
                   {feedback.azure_file_path}
                 </td>
                 <td className="px-4 py-2 border">
-                  {format(new Date(feedback.created_at), 'PPpp')}
+                  {format(new Date(feedback.created_at), "PPpp")}
                 </td>
               </tr>
             ))}
@@ -443,47 +480,43 @@ const Dashboard: React.FC = () => {
   }
 
   if (error) {
-    return (
-      <div className="text-center text-red-600 p-4">
-        {error}
-      </div>
-    );
+    return <div className="text-center text-red-600 p-4">{error}</div>;
   }
 
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6">Customer Feedback Dashboard</h1>
-      
+
       {/* Tab Navigation */}
       <div className="mb-6">
         <div className="flex space-x-4 border-b">
           <button
             className={`px-4 py-2 font-medium ${
-              activeTab === 'customers'
-                ? 'border-b-2 border-blue-600 text-blue-600'
-                : 'text-gray-500 hover:text-gray-700'
+              activeTab === "customers"
+                ? "border-b-2 border-blue-600 text-blue-600"
+                : "text-gray-500 hover:text-gray-700"
             }`}
-            onClick={() => setActiveTab('customers')}
+            onClick={() => setActiveTab("customers")}
           >
             Customers
           </button>
           <button
             className={`px-4 py-2 font-medium ${
-              activeTab === 'feedback'
-                ? 'border-b-2 border-blue-600 text-blue-600'
-                : 'text-gray-500 hover:text-gray-700'
+              activeTab === "feedback"
+                ? "border-b-2 border-blue-600 text-blue-600"
+                : "text-gray-500 hover:text-gray-700"
             }`}
-            onClick={() => setActiveTab('feedback')}
+            onClick={() => setActiveTab("feedback")}
           >
             Feedback
           </button>
           <button
             className={`px-4 py-2 font-medium ${
-              activeTab === 'azure'
-                ? 'border-b-2 border-blue-600 text-blue-600'
-                : 'text-gray-500 hover:text-gray-700'
+              activeTab === "azure"
+                ? "border-b-2 border-blue-600 text-blue-600"
+                : "text-gray-500 hover:text-gray-700"
             }`}
-            onClick={() => setActiveTab('azure')}
+            onClick={() => setActiveTab("azure")}
           >
             Azure Data
           </button>
@@ -492,9 +525,9 @@ const Dashboard: React.FC = () => {
 
       {/* Table Content */}
       <div className="mt-4">
-        {activeTab === 'customers' && renderCustomersTable()}
-        {activeTab === 'feedback' && renderFeedbackTable()}
-        {activeTab === 'azure' && renderAzureDataTable()}
+        {activeTab === "customers" && renderCustomersTable()}
+        {activeTab === "feedback" && renderFeedbackTable()}
+        {activeTab === "azure" && renderAzureDataTable()}
       </div>
 
       {/* Detail Modal */}
@@ -508,4 +541,4 @@ const Dashboard: React.FC = () => {
   );
 };
 
-export default Dashboard; 
+export default Dashboard;
