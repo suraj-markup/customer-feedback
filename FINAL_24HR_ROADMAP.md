@@ -80,7 +80,6 @@ A working customer feedback system with **dual storage strategy**: MongoDB for f
    - Databases → Connect → Connect your application
    - Copy connection string
    - Replace `<password>` with your actual password
-    uri = "mongodb+srv://surajmarkup:surajmarkup@cluster0.lwsst.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 
 ### **Hour 3: Azure Data Lake Setup**
 #### Tasks:
@@ -117,7 +116,7 @@ A working customer feedback system with **dual storage strategy**: MongoDB for f
 2. **Create .env file**
    ```bash
    MONGODB_URL=mongodb+srv://feedback_user:yourpassword@customer-feedback.abc123.mongodb.net/feedback_system
-   AZURE_STORAGE_CONNECTION_STRING=DefaultEndpointsProtocol=https;AccountName=...
+   AZURE_STORAGE_CONNECTION_STRING=
    OPENAI_API_KEY=sk-your-api-key-here
    EMAIL_USER=your-email@gmail.com
    EMAIL_PASSWORD=your-app-password
