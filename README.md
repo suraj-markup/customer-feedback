@@ -1,6 +1,8 @@
 # Customer Feedback System
 
 A modern, AI-powered customer feedback system that collects, processes, and analyzes customer experiences across different service branches. The system ensures secure, one-time-only feedback submission while maintaining compliance and analytics capabilities.
+![image](https://github.com/user-attachments/assets/93d17184-df3a-47f6-8ca6-6f20c7c432d6)
+
 
 ## 🎯 Project Overview
 
@@ -164,6 +166,8 @@ FRONTEND_URL=http://localhost:3000
 ## Dashboard Details
 
 The dashboard provides a comprehensive view of customer data, feedback, and Azure Data Lake information through an intuitive tabbed interface:
+![image](https://github.com/user-attachments/assets/d2bf3721-9724-413d-ae5b-0a8c7029c576)
+![image](https://github.com/user-attachments/assets/eaec18af-0c05-4505-aa98-57a1835e504d)
 
 
 ### Features
