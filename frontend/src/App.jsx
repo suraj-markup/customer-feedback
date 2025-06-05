@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import CustomerForm from './components/CustomerForm';
-import FeedbackForm from './components/FeedbackForm';
-import Dashboard from './components/Dashboard';
+import CustomerForm from './Components/CustomerForm';
+import FeedbackForm from './Components/FeedbackForm';
+import Dashboard from './Components/Dashboard';
 import logo from './assets/logo.png';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
