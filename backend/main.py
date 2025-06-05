@@ -53,7 +53,7 @@ async def test_mongodb():
         return {"error": str(e)}
     
 
-@app.post("/api/customers")
+
 @app.post("/api/customers")
 async def create_customer(customer: CustomerCreate):
     from services.mongodb_service import mongodb_service
@@ -61,7 +61,7 @@ async def create_customer(customer: CustomerCreate):
     from services.email_service import email_service
       
     # Store customer in MongoDB
-    customer_id = mongodb_service.create_customer(customer.dict())
+    customer_id = mongodb_service.create_customer(customer.model_dump())
        
     if customer.email_consent:
         # Generate survey token
@@ -72,7 +72,7 @@ async def create_customer(customer: CustomerCreate):
             "customer_id": customer_id,
             "token": token,
             "is_used": False,
-            "created_at": datetime.utcnow()
+            "created_at": datetime.now()
         }
         mongodb_service.survey_links.insert_one(survey_doc)
            
@@ -80,7 +80,8 @@ async def create_customer(customer: CustomerCreate):
         email_content = await gpt_service.generate_survey_email(
             customer.name, 
             customer.purpose_of_visit, 
-            customer.branch_name
+            customer.branch_name,
+            customer.staff_name
         )
            
         # Send email
@@ -138,7 +139,16 @@ async def test_azure():
         return {"status": "Azure connected", "file_path": result}
     except Exception as e:
         return {"error": str(e)}
-    
+
+
+@app.get("/test-email")
+async def test_gpt():
+    try:
+        from services.email_service import email_service
+        email = await email_service.send_survey_email("suraj.markup@gmail.com", "John Doe", "ec3332cf-9df2-405e-957c-db21ea4f153e", "Hello, this is a test email")
+        return {"status": "Email connected", "sample_email": email}
+    except Exception as e:
+        return {"error": str(e)} 
 
 @app.get("/test-gpt")
 async def test_gpt():
@@ -168,7 +178,7 @@ async def create_customer(customer: CustomerCreate):
             "customer_id": customer_id,
             "token": token,
             "is_used": False,
-            "created_at": datetime.utcnow()
+            "created_at": datetime.now()
         }
         mongodb_service.survey_links.insert_one(survey_doc)
            
@@ -176,7 +186,8 @@ async def create_customer(customer: CustomerCreate):
         email_content = await gpt_service.generate_survey_email(
             customer.name, 
             customer.purpose_of_visit, 
-            customer.branch_name
+            customer.branch_name,
+            customer.staff_name
         )
            
         # Send email
@@ -234,7 +245,7 @@ async def submit_feedback(token: str, feedback: FeedbackSubmission):
         "sentiment": "positive" if feedback.star_rating >= 4 else "neutral" if feedback.star_rating >= 3 else "negative",
         "gpt_summary": gpt_summary,
         "azure_file_path": "",
-        "created_at": datetime.utcnow()
+        "created_at": datetime.now()
     }
        
     result = mongodb_service.feedback.insert_one(feedback_doc)
@@ -256,7 +267,7 @@ async def submit_feedback(token: str, feedback: FeedbackSubmission):
             "gpt_summary": gpt_summary
         },
         "metadata": {
-            "submission_time": datetime.utcnow().isoformat(),
+            "submission_time": datetime.now().isoformat(),
             "survey_token": token
         }
     }
