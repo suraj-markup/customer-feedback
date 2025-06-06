@@ -128,6 +128,65 @@ FRONTEND_URL=http://localhost:3000
    - GPT generates feedback summary
    - Data stored in both MongoDB and Azure
 
+## 🚀 API Endpoints
+
+### Core Endpoints
+- `GET /`
+  - Root endpoint
+  - Returns API status message
+
+- `GET /health`
+  - Health check endpoint
+  - Returns system health status
+
+### Customer Management
+- `POST /api/customers`
+  - Create new customer record
+  - Rate limited to 10 requests/minute
+  - Returns customer ID and survey status
+
+- `GET /api/customers`
+  - List all customers
+  - Returns array of customer records
+
+### Feedback Management
+- `GET /api/feedback`
+  - List all feedback entries
+  - Returns array of feedback records
+
+- `GET /api/feedback/{token}`
+  - Get feedback form data
+  - Validates survey token
+  - Returns customer details for feedback form
+
+- `POST /api/feedback/{token}`
+  - Submit customer feedback
+  - Stores in MongoDB and Azure
+  - Returns submission confirmation
+
+### Azure Integration
+- `GET /api/azure-data`
+  - List all feedback files in Azure
+  - Returns array of file paths
+
+### Testing Endpoints
+- `GET /test-mongodb`
+  - Test MongoDB connection
+  - Returns connection status
+
+- `GET /test-azure`
+  - Test Azure connection
+  - Returns connection status
+
+- `GET /test-email`
+  - Test email service
+  - Sends test email
+
+- `GET /test-gpt`
+  - Test GPT service
+  - Returns sample generated email
+
+
 ## 📊 Data Storage Strategy
 
 ### MongoDB (Operational Data)
